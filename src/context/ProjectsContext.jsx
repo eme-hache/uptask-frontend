@@ -1,8 +1,10 @@
 import { createContext, useState, useEffect } from 'react'
-import axiosClient from '../config/axios.client'
 import { useNavigate } from 'react-router-dom'
-import useAuth from '../hooks/useAuth'
+import { toast } from 'react-toastify'
 import io from 'socket.io-client'
+
+import axiosClient from '../config/axios.client'
+import useAuth from '../hooks/useAuth'
 
 let socket
 
@@ -13,6 +15,7 @@ export const ProjectProvider = ({ children }) => {
     const { auth } = useAuth()
 
     const [isDeleteCollaborator, setIsDeleteCollaborator] = useState(false)
+    const [isDeleteProject, setIsDeleteProject] = useState(false)
     const [isDeleteTask, setIsDeleteTask] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isSearcher, setIsSearcher] = useState(false)
@@ -21,12 +24,7 @@ export const ProjectProvider = ({ children }) => {
     const [collaborator, setCollaborator] = useState({})
     const [projects, setProjects] = useState([])
     const [project, setProject] = useState({})
-    const [alert, setAlert] = useState({})
     const [task, setTask] = useState({})
-
-    const showAlert = alert => {
-        setAlert(alert)
-    }
 
     const getProject = async id => {
         try {
@@ -44,15 +42,10 @@ export const ProjectProvider = ({ children }) => {
             })
 
             setProject(data)
-            showAlert({})
         }
         catch {
-            // TODO best practice to handle errors
             navigate('/projects')
-            showAlert({
-                msg: 'Hubo un error al obtener el proyecto',
-                error: true
-            })
+            toast('No se pudo obtener el proyecto', { type: 'error' })
         }
         finally {
             setLoading(false)
@@ -83,15 +76,12 @@ export const ProjectProvider = ({ children }) => {
 
             setProjects([...projects, data])
 
-            // TODO: Show alert with success message
+            toast('Proyecto creado correctamente', { type: 'success' })
 
             navigate('/projects')
         }
         catch {
-            showAlert({
-                msg: 'Hubo un error al crear el proyecto',
-                error: true
-            })
+            toast('No se pudo crear el proyecto', { type: 'error' })
         }
     }
 
@@ -110,15 +100,12 @@ export const ProjectProvider = ({ children }) => {
 
             setProjects(projects.map(proj => proj._id === data._id ? data : proj))
 
-            // TODO: Show alert with success message
+            toast('Proyecto editado correctamente', { type: 'success' })
 
-            navigate('/projects')
+            navigate(-1)
         }
         catch {
-            showAlert({
-                msg: 'Hubo un error al editar el proyecto',
-                error: true
-            })
+            toast('No se pudo editar el proyecto', { type: 'error' })
         }
     }
 
@@ -137,15 +124,12 @@ export const ProjectProvider = ({ children }) => {
 
             setProjects(projects.filter(proj => proj._id !== id))
 
-            // TODO Show alert with success message
+            toast('Proyecto eliminado correctamente', { type: 'success' })
 
             navigate('/projects')
         }
         catch {
-            showAlert({
-                msg: 'Hubo un error al eliminar el proyecto',
-                error: true
-            })
+            toast('No se pudo eliminar el proyecto', { type: 'error' })
         }
     }
 
@@ -165,10 +149,7 @@ export const ProjectProvider = ({ children }) => {
             setProjects(data)
         }
         catch {
-            showAlert({
-                msg: 'Hubo un error al obtener los proyectos',
-                error: true
-            })
+            toast('No se pudo obtener los proyectos', { type: 'error' })
         }
     }
 
@@ -194,17 +175,14 @@ export const ProjectProvider = ({ children }) => {
                 }
             })
 
-
-            // TODO: Show alert with success message
             handleModal()
+
+            toast('Tarea creada correctamente', { type: 'success' })
 
             socket.emit('newTask', data)
         }
         catch {
-            showAlert({
-                msg: 'Hubo un error al crear la tarea',
-                error: true
-            })
+            toast('No se pudo crear la tarea', { type: 'error' })
         }
     }
 
@@ -223,13 +201,10 @@ export const ProjectProvider = ({ children }) => {
 
             socket.emit('changeTaskState', data)
 
-            // TODO Show alert with success message
+            toast('Tarea modificada correctamente', { type: 'success' })
         }
         catch {
-            showAlert({
-                msg: 'Hubo un error al modificar la tarea',
-                error: true
-            })
+            toast('No se pudo modificar la tarea', { type: 'error' })
         }
     }
 
@@ -246,17 +221,14 @@ export const ProjectProvider = ({ children }) => {
                 }
             })
 
-            // TODO: Show alert with success message
+            toast('Tarea modificada correctamente', { type: 'success' })
 
             socket.emit('editTask', data)
 
             handleModal()
         }
         catch {
-            showAlert({
-                msg: 'Hubo un error al modificar la tarea',
-                error: true
-            })
+            toast('No se pudo editar la tarea', { type: 'error' })
         }
     }
 
@@ -273,13 +245,12 @@ export const ProjectProvider = ({ children }) => {
                 }
             })
             
-            socket.emit('deleteTask', task)
+            toast('Tarea eliminada correctamente', { type: 'success' })
 
-            // TODO Show alert with success message
+            socket.emit('deleteTask', task)
         }
-        catch (error) {
-            console.log(error)
-            // TODO Show alert with error message
+        catch {
+            toast('No se pudo eliminar la tarea', { type: 'error' })
         }
         finally {
             setIsDeleteTask(!isDeleteTask)
@@ -302,13 +273,9 @@ export const ProjectProvider = ({ children }) => {
             })
 
             setCollaborator(data)
-            showAlert({})
         }
         catch {
-            showAlert({
-                msg: 'Colaborador no encontrado',
-                error: true
-            })
+            toast('Colaborador no encontrado', { type: 'warning' })
         }
         finally {
             setLoading(false)
@@ -328,42 +295,37 @@ export const ProjectProvider = ({ children }) => {
                 }
             })
 
-            showAlert({
-                msg: 'Colaborador agregado',
-                error: false
-            })
+
+            toast('Colaborador agregado', { type: 'success' })
+            navigate(-1)
         }
         catch (error) {
             const { response: { data: { msg } } } = error
-            let message = { msg: '', error: true }
+            let message = ''
 
             switch (msg) {
                 case 'Project not found':
-                    message = { ...message, msg: 'Proyecto no encontrado' }
+                    message = 'Proyecto no encontrado'
                     break
                 case 'Not authorized':
-                    message = { ...message, msg: 'No tienes permisos para realizar esta acción' }
+                    message = 'No tienes permisos para realizar esta acción'
                     break
                 case 'User not found':
-                    message = { ...message, msg: 'Usuario no encontrado' }
+                    message = 'Usuario no encontrado'
                     break
                 case 'User is the author':
-                    message = { ...message, msg: 'El usuario es el autor del proyecto' }
+                    message = 'El usuario es el autor del proyecto'
                     break
                 case 'User is already a collaborator':
-                    message = { ...message, msg: 'El usuario ya es un colaborador' }
+                    message = 'El usuario ya es un colaborador'
                     break
             }
 
-            showAlert(message)
+            toast(message.msg, { type: 'error' })
         }
         finally {
             setCollaborator({})
             setLoading(false)
-
-            setTimeout(() => {
-                showAlert({})
-            }, 2000)
         }
     }
 
@@ -383,24 +345,21 @@ export const ProjectProvider = ({ children }) => {
             setProject({ ...project, collaborators: project.collaborators.filter(col => col._id !== id) })
             handleDeleteCollaborator()
             
-            //TODO Show alert with success message
+            toast('Colaborador eliminado', { type: 'success' })
         }
         catch {
-            showAlert({
-                msg: 'Hubo un error al eliminar el colaborador',
-                error: true
-            })
-        }
-        finally {
-            setTimeout(() => {
-                showAlert({})
-            }, 2000)
+            toast('No se pudo eliminar el colaborador', { type: 'error' })
         }
     }
 
     const handleDeleteCollaborator = localCollaborator => {
         setIsDeleteCollaborator(!isDeleteCollaborator)
         setCollaborator(localCollaborator)
+    }
+
+    const handleDeleteProject = localProject => {
+        setIsDeleteProject(!isDeleteProject)
+        setProject(localProject)
     }
 
     const handleDeleteTask = localTask => {
@@ -410,7 +369,6 @@ export const ProjectProvider = ({ children }) => {
 
     const handleModal = task => {
         setIsModalOpen(!isModalOpen)
-        showAlert({})
 
         if (task) {
             setTask(task)
@@ -427,11 +385,12 @@ export const ProjectProvider = ({ children }) => {
     const signOut = () => {
         setProjects([])
         setProject({})
-        showAlert({})
     }
     
     useEffect(() => {
-        getAllProjects()
+        if (auth && Object.keys(auth).length > 0) {
+            getAllProjects()
+        }
     }, [auth])
 
     useEffect(() => { socket = io(import.meta.env.VITE_BACKEND_URL) }, [])
@@ -458,7 +417,6 @@ export const ProjectProvider = ({ children }) => {
         <ProjectContext.Provider
             value={{
                 task,
-                alert,
                 loading,
                 project,
                 projects,
@@ -466,10 +424,10 @@ export const ProjectProvider = ({ children }) => {
                 isModalOpen,
                 collaborator,
                 isDeleteTask,
+                isDeleteProject,
                 isDeleteCollaborator,
                 signOut,
                 addedTask,
-                showAlert,
                 getProject,
                 editedTask,
                 submitTask,
@@ -486,6 +444,7 @@ export const ProjectProvider = ({ children }) => {
                 getCollaborator,
                 handleDeleteTask,
                 deleteCollaborator,
+                handleDeleteProject,
                 handleDeleteCollaborator,
             }}
         >

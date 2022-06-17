@@ -1,14 +1,18 @@
 import { useState, useEffect, createContext } from 'react'
-import axiosClient from '../config/axios.client'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+
+import axiosClient from '../config/axios.client'
 
 const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
+    // TODO vefiy connections when server is offline
     const navigate = useNavigate()
 
+    const [isValidToken, setIsValidToken] = useState(false)
     const [loading, setLoading] = useState(true)
-    const [auth, setAuth] = useState({})
+    const [auth, setAuth] = useState({}) 
 
     const authenticateUser = async token => {
         try {
@@ -22,7 +26,6 @@ export const AuthProvider = ({ children }) => {
             const { data } = await axiosClient.get('/user/profile', config)
 
             setAuth(data)
-            //navigate('/projects')
         }
         catch {
             setAuth({})
@@ -32,8 +35,113 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const checkToken = async id => {
+        try {
+            await axiosClient.get(`/user/check-token/${id}`)
+
+            setIsValidToken(true)
+        }
+        catch (error) {
+            const { response: { data } } = error || {}
+            const msg = data?.msgToUser ?? 'Ocurrió un error al verificar el token'
+
+            toast(msg, { type: 'error' })
+
+            setIsValidToken(false)
+
+            navigate('/')
+        }
+    }
+
+    const signUp = async account => {
+        try {
+            const { data } = await axiosClient.post(`/user`, account)
+
+            toast(data.msgToUser, { type: data.error ? 'error' : 'success' })
+            navigate('/')
+        }
+        catch (error) {
+            const { response: { data } } = error || {}
+            const msg = data?.msgToUser ?? 'Ocurrió un error al crear la cuenta'
+
+            toast(msg, { type: 'error' })
+        }
+    }
+
+    const signIn = async account => {
+        try {
+            setLoading(true)
+
+            const { data } = await axiosClient.post('/user/signin', account)
+
+            localStorage.setItem('token', data.token)
+
+            setAuth(data)
+            navigate('/projects')
+        }
+        catch (error) {
+            const { response: { data } } = error || {}
+            const msg = data?.msgToUser ?? 'Ocurrió un error al iniciar sesión'
+
+            toast(msg, { type: 'error' })
+        }
+        finally {
+            setLoading(false)
+        }
+    }
+
     const signOut = () => {
         setAuth({})
+    }
+
+    const resetPassword = async (id, passwords) => {
+        try {
+            const { data } = await axiosClient.post(`/user/forgot-password/${id}`, passwords)
+
+            toast(data.msgToUser, { type: data.error ? 'error' : 'success' })
+            navigate('/')
+        }
+        catch (error) {
+            const { response: { data } } = error || {}
+            const msg = data?.msgToUser ?? 'Ocurrió un error al restablecer la contraseña'
+
+            toast(msg, { type: 'error' })
+        }
+    }
+
+    const confirmUser = async id => {
+        try {
+            setLoading(true)
+
+            const { data } = await axiosClient.get(`/user/confirm/${id}`)
+
+            toast(data.msgToUser, { type: data.error ? 'error' : 'success' })
+        }
+        catch (error) {
+            const { response: { data } } = error || {}
+            const msg = data?.msgToUser ?? 'Ocurrió un error al confirmar la cuenta la cuenta'
+
+            toast(msg, { type: 'error' })
+        }
+        finally {
+            setLoading(false)
+            navigate('/')
+        }
+    }
+
+    const sendPasswordResetEmail = async email => {
+        try {
+            const { data } = await axiosClient.post(`/user/forgot-password`, { email })
+
+            toast(data.msgToUser, { type: data.error ? 'error' : 'success' })
+            navigate('/')
+        }
+        catch (error) {
+            const { response: { data } } = error || {}
+            const msg = data?.msgToUser ?? 'Ocurrió un error al enviar el correo'
+
+            toast(msg, { type: 'error' })
+        }
     }
 
     useEffect(() => {
@@ -52,8 +160,15 @@ export const AuthProvider = ({ children }) => {
             value={{
                 auth,
                 loading,
+                isValidToken,
+                signUp,
+                signIn,
                 setAuth,
                 signOut,
+                checkToken,
+                confirmUser,
+                resetPassword,
+                sendPasswordResetEmail,
             }}
         >
             {children}

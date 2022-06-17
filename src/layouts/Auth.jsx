@@ -15,13 +15,13 @@ const Auth = () => {
     }
 
     return (
-        <div className='bg-gray-100'>
+        <div className='bg-gray-100 md:h-screen flex flex-col'>
             <Header />
 
-            <div className='md:flex md:min-h-screen'>
+            <div className='md:flex flex-1 h-[80%]'>
                 <Sidebar />
 
-                <main className='flex-1 p-10'>
+                <main className='flex-1 p-10 h-full overflow-scroll'>
                     <Outlet />
                 </main>
             </div>

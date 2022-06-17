@@ -1,13 +1,13 @@
 import { Outlet } from 'react-router-dom'
 
-const Unauth = () => {
+const UnAuth = () => {
     return (
-        <main className='container mx-auto mt-5 md:mt-20 p-5 md:flex md:justify-center'>
-            <div className='md:w-2/3 xl:w-2/5'>
+        <main className='container mx-auto mt-5 md:mt-10 p-5 md:flex md:justify-center'>
+            <div className='w-full max-w-md mx-auto'>
                 <Outlet />
             </div>
         </main>
     )
 }
 
-export default Unauth
+export default UnAuth

@@ -1,13 +1,14 @@
-import { Fragment, useState, useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { PRIORITY, TASK } from '../../constants'
+import { Fragment, useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
+import { Button, Input } from '../../components/Layout'
 import useProjects from '../../hooks/useProjects'
-import Alert from '../Alert'
+import { PRIORITY, TASK } from '../../constants'
 
 const Modal = () => {
-    const { isModalOpen, handleModal, alert, showAlert, submitTask, task: taskToEdit } = useProjects()
+    const { isModalOpen, handleModal, submitTask, task: taskToEdit } = useProjects()
     const params = useParams()
 
     const [isEdit, setIsEdit] = useState(false)
@@ -17,13 +18,8 @@ const Modal = () => {
         evt.preventDefault()
 
         if (Object.values(task).includes('')) {
-            return showAlert({
-                msg: 'Todos los campos son obligatorios',
-                error: true
-            })
+            return toast('Todos los campos son obligatorios', { type: 'warning' })
         }
-
-        showAlert({})
 
         await submitTask({ ...task, project: params.id, isEdit })
     }
@@ -93,58 +89,33 @@ const Modal = () => {
                                         {isEdit ? 'Editar tarea' : 'Agregar tarea'}
                                     </Dialog.Title>
 
-                                    {Object.keys(alert).length > 0 && <Alert alert={alert} />}
-
                                     <form onSubmit={handleSubmit} className='my-10'>
-                                        <div className='mb-5'>
-                                            <label
-                                                className='text-gray-700 uppercase font-bold text-sm'
-                                                htmlFor='name'
-                                            >
-                                                Nombre
-                                            </label>
+                                        <Input
+                                            label='Nombre'
+                                            type='text'
+                                            placeholder='Ingresa el nombre de la tarea'
+                                            id='name'
+                                            value={task.name}
+                                            onChange={evt => setTask({ ...task, name: evt.target.value })}
+                                        />
 
-                                            <input
-                                                type='text'
-                                                id='name'
-                                                placeholder='Nombre de la tarea'
-                                                className='border w-full p-2 mt-2 placeholder-gray-400 rounded'
-                                                value={task.name}
-                                                onChange={evt => setTask({ ...task, name: evt.target.value })}
-                                            />
-                                        </div>
-                                        <div className='mb-5'>
-                                            <label
-                                                className='text-gray-700 uppercase font-bold text-sm'
-                                                htmlFor='description'
-                                            >
-                                                Descripción
-                                            </label>
+                                        <Input
+                                            label='Descripción'
+                                            type='textarea'
+                                            placeholder='Ingresa la descripción de la tarea'
+                                            id='description'
+                                            value={task.description}
+                                            onChange={evt => setTask({ ...task, description: evt.target.value })}
+                                        />
 
-                                            <textarea
-                                                id='description'
-                                                placeholder='Descripción de la tarea'
-                                                className='border w-full p-2 mt-2 placeholder-gray-400 rounded'
-                                                value={task.description}
-                                                onChange={evt => setTask({ ...task, description: evt.target.value })}
-                                            />
-                                        </div>
-                                        <div className='mb-5'>
-                                            <label
-                                                className='text-gray-700 uppercase font-bold text-sm'
-                                                htmlFor='date'
-                                            >
-                                                Fecha Entrega
-                                            </label>
+                                        <Input
+                                            label='Fecha de Entrega'
+                                            type='date'
+                                            id='description'
+                                            value={task.deliveryDate}
+                                            onChange={evt => setTask({ ...task, deliveryDate: evt.target.value })}
+                                        />
 
-                                            <input
-                                                type='date'
-                                                id='date'
-                                                className='border w-full p-2 mt-2 placeholder-gray-400 rounded'
-                                                value={task.deliveryDate}
-                                                onChange={evt => setTask({ ...task, deliveryDate: evt.target.value })}
-                                            />
-                                        </div>
                                         <div className='mb-5'>
                                             <label
                                                 className='text-gray-700 uppercase font-bold text-sm'
@@ -156,7 +127,7 @@ const Modal = () => {
                                             <select
                                                 name="priority"
                                                 id="priority"
-                                                className='border w-full p-2 mt-2 placeholder-gray-400 rounded'
+                                                className='border w-full p-2 mt-2 bg-gray-50 placeholder-gray-400 rounded'
                                                 value={task.priority}
                                                 onChange={evt => setTask({ ...task, priority: evt.target.value })}
                                             >
@@ -167,11 +138,9 @@ const Modal = () => {
                                             </select>
                                         </div>
 
-                                        <input
-                                            type='submit'
-                                            className='bg-sky-600 hover:bg-sky-700 w-full p-3 text-white uppercase font-bold cursor-pointer transition-colors rounded text-sm'
-                                            value={isEdit ? 'Guardar Cambios' : 'Crear Tarea'}
-                                        />
+                                        <Button type='submit'>
+                                            {isEdit ? 'Guardar Cambios' : 'Crear Tarea'}
+                                        </Button>
                                     </form>
                                 </div>
                             </div>

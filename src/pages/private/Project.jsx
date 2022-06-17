@@ -1,14 +1,19 @@
 import { useParams, Link } from 'react-router-dom'
-import useProjects from '../../hooks/useProjects'
-import useAdmin from '../../hooks/useAdmin'
 import { useEffect } from 'react'
 import io from 'socket.io-client'
 
-import DeleteCollaborator from '../../components/Collaborator/Delete'
-import Collaborator from '../../components/Collaborator'
-import DeleteTask from '../../components/Task/Delete'
-import Modal from '../../components/Task/Modal'
-import Task from '../../components/Task'
+import useProjects from '../../hooks/useProjects'
+import useAdmin from '../../hooks/useAdmin'
+import { 
+    Delete as DeleteCollaborator,
+    List as CollaboratorsList,
+} from '../../components/Collaborator'
+
+import {
+    Delete as DeleteTask,
+    Modal as ModalTask,
+    List as TasksList,
+} from '../../components/Task'
 
 let socket
 
@@ -60,7 +65,7 @@ const Project = () => {
 
     return (
         <>
-            <Modal />
+            <ModalTask />
             <DeleteTask />
             <DeleteCollaborator />
 
@@ -98,10 +103,8 @@ const Project = () => {
 
             <p className='font-bold text-xl mt-10'>Tareas del Proyecto</p>
 
-            <div className='bg-white shadow mt-10 rounded'>
-                {project?.tasks?.length > 0
-                    ? project.tasks.map(task => <Task key={task._id} task={task} />)
-                    : <p className='text-center my-10 p-10'>No hay tareas en este proyecto</p>}
+            <div className='mt-5'>
+                <TasksList tasks={project.tasks} />
             </div>
 
             {admin && (
@@ -123,12 +126,8 @@ const Project = () => {
                         </Link>
                     </div>
 
-                    <div className='bg-white shadow mt-10 rounded'>
-                        {project?.collaborators?.length > 0
-                            ? project.collaborators.map(collaborator =>
-                                (<Collaborator key={collaborator._id} collaborator={collaborator} />)
-                            )
-                            : <p className='text-center my-10 p-10'>No hay colaboradores en este proyecto</p>}
+                    <div className='mt-5'>
+                        <CollaboratorsList collaborators={project.collaborators} />
                     </div>
                 </>
             )}

@@ -1,16 +1,14 @@
-import useProjects from '../../hooks/useProjects'
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { toast } from 'react-toastify'
 
-import Alert from '../../components/Alert'
+import useProjects from '../../hooks/useProjects'
 
 const NewCollaborator = () => {
     const params = useParams()
 
     const [email, setEmail] = useState('')
     const {
-        alert,
-        showAlert,
         getCollaborator,
         project,
         collaborator,
@@ -23,15 +21,10 @@ const NewCollaborator = () => {
         evt.preventDefault()
 
         if (email === '') {
-            return showAlert({
-                msg: 'El correo electrónico es obligatorio',
-                error: true
-            })
+            return toast('El correo es obligatorio', { type: 'warning' })
         }
 
         await getCollaborator(email)
-
-        //setEmail('')
     }
 
     useEffect(() => {
@@ -44,7 +37,7 @@ const NewCollaborator = () => {
         return (
             <div className='flex justify-center'>
                 <div className='bg-white p-8 md:w-1/2 rounded shadow'>
-                    <Alert alert={alert} />
+                    // TODO pending
                 </div>
             </div>
         )
@@ -59,8 +52,6 @@ const NewCollaborator = () => {
                     className='bg-white p-8 md:w-1/2 rounded shadow w-full'
                     onSubmit={handleSubmit}
                 >
-                    {Object.keys(alert).length > 0 && (<Alert alert={alert} />)}
-
                     <div className='mb-5'>
                         <label
                             htmlFor='email'

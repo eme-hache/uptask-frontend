@@ -1,51 +1,35 @@
-import axiosClient from '../../config/axios.client'
-import { useParams, Link } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import Alert from '../../components/Alert'
+import { SpinnerCircular } from 'spinners-react'
+import { useParams } from 'react-router-dom'
+import { useEffect } from 'react'
+
+import useAuth from '../../hooks/useAuth'
 
 const ConfirmUser = () => {
+    const { confirmUser, loading } = useAuth()
     const { id } = useParams()
 
-    const [alert, setAlert] = useState({})
-
-    const confirmUser = async () => {
-        try {
-            const { data } = await axiosClient.get(`/user/confirm/${id}`)
-
-            setAlert({
-                msg: data.msgToUser,
-                error: data.error
-            })
-        }
-        catch (error) {
-            const { response: { data } } = error
-
-            setAlert({
-                msg: data?.msgToUser ?? 'Ocurrió un error al confirmar la cuenta',
-                error: data?.error ?? true,
-            })
-        }
+    const handleConfirmUser = async () => {
+        await confirmUser(id)
     }
 
     useEffect(() => {
-        confirmUser()
+        handleConfirmUser()
     }, [])
 
     return (
         <>
-            <h1 className='text-sky-600 font-black text-6xl capitalize text-center'>
+            <h1 className='text-sky-600 font-black text-4xl capitalize text-center'>
                 Estamos Confirmando Tu <span className='text-slate-700'>Cuenta</span>
             </h1>
 
-            <div className='mt-16 md:mt-10 shadow p-10 bg-white'>
-                {Object.keys(alert).length > 0 && (<Alert alert={alert} />)}
-
-                <Link
-                    className='block text-center my-5 text-slate-500 uppercase text-sm'
-                    to='/'
-                >
-                    Inicia Sesión
-                </Link>
+            <div className='mt-16 md:mt-10 p-10  flex justify-center'>
+                <SpinnerCircular
+                    color='rgb(2,132,199)'
+                    secondaryColor='rgba(0,0,0,0.2)'
+                    size={80}
+                    thickness={150}
+                    enabled={loading}
+                />
             </div>
         </>
     )

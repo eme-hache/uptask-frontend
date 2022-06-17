@@ -1,4 +1,4 @@
-import ProjectForm from '../../components/ProjectForm'
+import { Form } from '../../components/Project'
 
 const NewProject = () => {
     return (
@@ -6,7 +6,7 @@ const NewProject = () => {
             <h1 className='text-4xl font-black'>Crea un Nuevo Proyecto</h1>
 
             <div className='mt-10 flex justify-center'>
-                <ProjectForm />
+                <Form />
             </div>
         </>
     )
