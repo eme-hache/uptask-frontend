@@ -3,7 +3,7 @@ import ResetPassword from '../../pages/public/ResetPassword'
 import ConfirmUser from '../../pages/public/ConfirmUser'
 import SignIn from '../../pages/public/SignIn'
 import SignUp from '../../pages/public/SignUp'
-import UnAuth from '../../layouts/UnAuth'
+import UnAuth from '../../layout/UnAuth'
 
 export { UnAuth }
 

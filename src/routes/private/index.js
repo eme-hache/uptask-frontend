@@ -3,7 +3,7 @@ import EditProject from '../../pages/private/EditProject'
 import NewProject from '../../pages/private/NewProject'
 import Projects from '../../pages/private/Projects'
 import Project from '../../pages/private/Project'
-import Auth from '../../layouts/Auth'
+import Auth from '../../layout/Auth'
 
 export { Auth }
 
