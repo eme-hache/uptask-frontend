@@ -49,9 +49,9 @@ export const ProjectProvider = ({ children }) => {
             setProject(data)
         }
         catch (error) {
-            const { response: { data: { msgToUser } } } = error ?? {}
+            const { response: { data } } = error ?? {}
 
-            toast(msgToUser ?? 'No se pudo obtener el proyecto', { type: 'error' })
+            toast(data?.msgToUser ?? 'No se pudo obtener el proyecto', { type: 'error' })
             
             navigate('/projects')
         }
@@ -89,9 +89,9 @@ export const ProjectProvider = ({ children }) => {
             navigate('/projects')
         }
         catch (error) {
-            const { response: { data: { msgToUser } } } = error ?? {}
+            const { response: { data } } = error ?? {}
 
-            toast(msgToUser ?? 'No se pudo crear el proyecto', { type: 'error' })
+            toast(data?.msgToUser ?? 'No se pudo crear el proyecto', { type: 'error' })
         }
     }
 
@@ -115,9 +115,9 @@ export const ProjectProvider = ({ children }) => {
             navigate(-1)
         }
         catch (error) {
-            const { response: { data: { msgToUser } } } = error ?? {}
+            const { response: { data } } = error ?? {}
 
-            toast(msgToUser ?? 'No se pudo editar el proyecto', { type: 'error' })
+            toast(data?.msgToUser ?? 'No se pudo editar el proyecto', { type: 'error' })
         }
     }
 
@@ -141,9 +141,9 @@ export const ProjectProvider = ({ children }) => {
             navigate('/projects')
         }
         catch (error) {
-            const { response: { data: { msgToUser } } } = error ?? {}
+            const { response: { data } } = error ?? {}
 
-            toast(msgToUser ?? 'No se pudo eliminar el proyecto', { type: 'error' })
+            toast(data?.msgToUser ?? 'No se pudo eliminar el proyecto', { type: 'error' })
         }
     }
 
@@ -163,9 +163,9 @@ export const ProjectProvider = ({ children }) => {
             setProjects(data)
         }
         catch (error) {
-            const { response: { data: { msgToUser } } } = error ?? {}
+            const { response: { data } } = error ?? {}
 
-            toast(msgToUser ?? 'No se pudo obtener los proyectos', { type: 'error' })
+            toast(data?.msgToUser ?? 'No se pudo obtener los proyectos', { type: 'error' })
         }
     }
 
@@ -198,9 +198,9 @@ export const ProjectProvider = ({ children }) => {
             socket.emit('newTask', data)
         }
         catch (error) {
-            const { response: { data: { msgToUser } } } = error ?? {}
+            const { response: { data } } = error ?? {}
 
-            toast(msgToUser ?? 'No se pudo crear la tarea', { type: 'error' })
+            toast(data?.msgToUser ?? 'No se pudo crear la tarea', { type: 'error' })
         }
     }
 
@@ -222,9 +222,9 @@ export const ProjectProvider = ({ children }) => {
             toast('Tarea modificada correctamente', { type: 'success' })
         }
         catch (error) {
-            const { response: { data: { msgToUser } } } = error ?? {}
+            const { response: { data } } = error ?? {}
 
-            toast(msgToUser ?? 'No se pudo modificar la tarea', { type: 'error' })
+            toast(data?.msgToUser ?? 'No se pudo modificar la tarea', { type: 'error' })
         }
     }
 
@@ -248,9 +248,9 @@ export const ProjectProvider = ({ children }) => {
             handleModal()
         }
         catch (error) {
-            const { response: { data: { msgToUser } } } = error ?? {}
+            const { response: { data } } = error ?? {}
 
-            toast(msgToUser ?? 'No se pudo editar la tarea', { type: 'error' })
+            toast(data?.msgToUser ?? 'No se pudo editar la tarea', { type: 'error' })
         }
     }
 
@@ -272,9 +272,9 @@ export const ProjectProvider = ({ children }) => {
             socket.emit('deleteTask', task)
         }
         catch (error) {
-            const { response: { data: { msgToUser } } } = error ?? {}
+            const { response: { data } } = error ?? {}
 
-            toast(msgToUser ?? 'No se pudo eliminar la tarea', { type: 'error' })
+            toast(data?.msgToUser ?? 'No se pudo eliminar la tarea', { type: 'error' })
         }
         finally {
             setIsDeleteTask(!isDeleteTask)
@@ -299,9 +299,9 @@ export const ProjectProvider = ({ children }) => {
             setCollaborator(data)
         }
         catch (error) {
-            const { response: { data: { msgToUser } } } = error ?? {}
+            const { response: { data } } = error ?? {}
 
-            toast(msgToUser ?? 'Usuario no encontrado', { type: 'error' })
+            toast(data?.msgToUser ?? 'Usuario no encontrado', { type: 'error' })
         }
         finally {
             setLoading(false)
@@ -326,9 +326,9 @@ export const ProjectProvider = ({ children }) => {
             navigate(-1)
         }
         catch (error) {
-            const { response: { data: { msgToUser } } } = error ?? {}
+            const { response: { data } } = error ?? {}
 
-            toast(msgToUser ?? 'No se pudo agregar el colaborador', { type: 'error' })
+            toast(data?.msgToUser ?? 'No se pudo agregar el colaborador', { type: 'error' })
         }
         finally {
             setCollaborator({})
@@ -355,9 +355,9 @@ export const ProjectProvider = ({ children }) => {
             toast('Colaborador eliminado', { type: 'success' })
         }
         catch (error) {
-            const { response: { data: { msgToUser } } } = error ?? {}
+            const { response: { data } } = error ?? {}
 
-            toast(msgToUser ?? 'No se pudo eliminar el colaborador', { type: 'error' })
+            toast(data?.msgToUser ?? 'No se pudo eliminar el colaborador', { type: 'error' })
         }
     }
 
