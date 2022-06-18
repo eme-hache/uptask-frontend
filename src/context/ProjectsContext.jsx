@@ -19,12 +19,17 @@ export const ProjectProvider = ({ children }) => {
     const [isDeleteTask, setIsDeleteTask] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isSearcher, setIsSearcher] = useState(false)
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [loading, setLoading] = useState(false)
 
     const [collaborator, setCollaborator] = useState({})
     const [projects, setProjects] = useState([])
     const [project, setProject] = useState({})
     const [task, setTask] = useState({})
+
+    const toggleMenu = state => {
+        setIsMenuOpen(state ?? !isMenuOpen)
+    }
 
     const getProject = async id => {
         try {
@@ -300,28 +305,9 @@ export const ProjectProvider = ({ children }) => {
             navigate(-1)
         }
         catch (error) {
-            const { response: { data: { msg } } } = error
-            let message = ''
+            const { response: { data: { msgToUser } } } = error || {}
 
-            switch (msg) {
-                case 'Project not found':
-                    message = 'Proyecto no encontrado'
-                    break
-                case 'Not authorized':
-                    message = 'No tienes permisos para realizar esta acción'
-                    break
-                case 'User not found':
-                    message = 'Usuario no encontrado'
-                    break
-                case 'User is the author':
-                    message = 'El usuario es el autor del proyecto'
-                    break
-                case 'User is already a collaborator':
-                    message = 'El usuario ya es un colaborador'
-                    break
-            }
-
-            toast(message.msg, { type: 'error' })
+            toast(msgToUser, { type: 'error' })
         }
         finally {
             setCollaborator({})
@@ -420,6 +406,7 @@ export const ProjectProvider = ({ children }) => {
                 loading,
                 project,
                 projects,
+                isMenuOpen,
                 isSearcher,
                 isModalOpen,
                 collaborator,
@@ -428,6 +415,7 @@ export const ProjectProvider = ({ children }) => {
                 isDeleteCollaborator,
                 signOut,
                 addedTask,
+                toggleMenu,
                 getProject,
                 editedTask,
                 submitTask,

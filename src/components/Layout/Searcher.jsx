@@ -8,13 +8,13 @@ function classNames(...classes) {
 }
 
 const Searcher = () => {
-    const { isSearcher, handleSearcher, projects } = useProjects()
+    const { isSearcher, handleSearcher, projects, toggleMenu } = useProjects()
     const [search, setSearch] = useState('')
     const navigate = useNavigate()
 
     const handleNavigation = project => {
         navigate(`/projects/${project._id}`)
-
+        toggleMenu(false)
         handleSearcher()
     }
 

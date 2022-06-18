@@ -3,7 +3,7 @@ import Task from './Task'
 const List = ({ tasks }) => {
     if (tasks?.length === 0) {
         return (
-            <p className='text-center my-10 p-10 bg-white rounded shadow'>
+            <p className='text-center mb-10 p-10 bg-white rounded shadow'>
                 No hay tareas en este proyecto
             </p>
         )

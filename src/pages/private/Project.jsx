@@ -69,7 +69,7 @@ const Project = () => {
             <DeleteTask />
             <DeleteCollaborator />
 
-            <div className='flex justify-between'>
+            <div className='flex justify-between gap-4'>
                 <h1 className='font-black text-4xl'>{project?.name}</h1>
 
                 {admin && (

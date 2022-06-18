@@ -5,14 +5,20 @@ import useAuth from '../../hooks/useAuth'
 import Searcher from './Searcher'
 
 const Sidebar = () => {
-    const { handleSearcher } = useProjects()
+    const { handleSearcher, isMenuOpen, toggleMenu } = useProjects()
     const { auth } = useAuth()
 
     return (
-        <aside className='md:w-72 px-5 py-10'>
+        <aside className={`${isMenuOpen ? 'absolute' : 'hidden'} w-screen h-full top-0 shadow md:shadow-none md:block bg-white md:bg-transparent md:relative md:w-72 md:px-5 md:py-10 pt-20 px-10`}>
             <Searcher />
 
-            <p className='font-bold capitalize mb-10 flex gap-2 text-xl items-center'>
+            <button onClick={() => toggleMenu()} className='absolute top-6 right-5 md:hidden'>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <p className='font-bold capitalize mb-10 flex gap-2 text-xl items-center justify-center md:justify-start'>
                 Hola:
                 <span className='text-xl font-normal'>{auth.name}</span>
             </p>
@@ -28,17 +34,17 @@ const Sidebar = () => {
                 </svg>
             </button>
 
-            <div className='bg-sky-600 text-center p-3 rounded mb-5 hover:cursor-pointer'>
-                <Link to='new-project' className=' text-white uppercase font-bold'>
+            <Link to='new-project' onClick={() => toggleMenu(false)} className=' text-white uppercase font-bold'>
+                <div className='bg-sky-600 text-center p-3 rounded mb-5 hover:cursor-pointer'>
                     Nuevo Proyecto
-                </Link>
-            </div>
+                </div>
+            </Link>
 
-            <div className='text-center bg-gray-200 p-3 rounded hover:cursor-pointer hover:bg-sky-600 hover:text-white transition-colors'>
-                <Link to='/projects' className='font-bold uppercase'>
+            <Link to='/projects' onClick={() => toggleMenu(false)} className='font-bold uppercase'>
+                <div className='text-center bg-gray-200 p-3 rounded hover:cursor-pointer hover:bg-sky-600 hover:text-white transition-colors'>
                     Proyectos
-                </Link>
-            </div>
+                </div>
+            </Link>
         </aside>
     )
 }

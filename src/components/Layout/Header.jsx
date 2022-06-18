@@ -2,7 +2,7 @@ import useProjects from '../../hooks/useProjects'
 import useAuth from '../../hooks/useAuth'
 
 const Header = () => {
-    const { signOut: signOutProjects } = useProjects()
+    const { signOut: signOutProjects, toggleMenu } = useProjects()
     const { signOut: signOutAuth } = useAuth()
 
     const handleSignOut = () => {
@@ -12,12 +12,11 @@ const Header = () => {
     }
 
     return (
-        <header className='px-4 py-5 bg-white border-b'>
-            <div className='md:flex md:justify-between'>
-                <h2 className='text-4xl text-sky-600 font-black text-center mb-5 md:mb-0'>UpTask</h2>
+        <header className='p-5 bg-white border-b'>
+            <div className='flex justify-between items-center'>
+                <h2 className='text-4xl text-sky-600 font-black text-left mb-0'>UpTask</h2>
 
-                <div className='flex flex-col md:flex-row items-center gap-4'>
-                    
+                <div className='hidden md:flex flex-col md:flex-row items-center gap-4'>
                     <button type='button' onClick={handleSignOut} className='flex gap-2'>
                         Salir
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -25,6 +24,12 @@ const Header = () => {
                         </svg>
                     </button>
                 </div>
+
+                <button onClick={() => toggleMenu()} className='md:hidden'>
+                    <svg className="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
             </div>
         </header>
     )

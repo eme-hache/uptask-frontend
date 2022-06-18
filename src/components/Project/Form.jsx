@@ -38,7 +38,7 @@ const Form = () => {
     }, [params])
 
     return (
-        <form onSubmit={handleSubmit} className='bg-white py-10 px-5 md:w-1/2 rounded shadow'>
+        <form onSubmit={handleSubmit} className='bg-white py-10 px-5 w-full md:w-1/2 md:min-w-[400px] rounded shadow'>
             <Input
                 label='Nombre del Proyecto'
                 type='text'
