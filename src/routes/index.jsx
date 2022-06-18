@@ -1,9 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 
-import privateRoutes from './private'
-import publicRoutes from './public'
-import UnAuth from './../layouts/UnAuth'
-import Auth from '../layouts/Auth'
+import privateRoutes, { Auth } from './private'
+import publicRoutes, { UnAuth } from './public'
 
 export default () => {
     return (

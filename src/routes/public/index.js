@@ -3,6 +3,9 @@ import ResetPassword from '../../pages/public/ResetPassword'
 import ConfirmUser from '../../pages/public/ConfirmUser'
 import SignIn from '../../pages/public/SignIn'
 import SignUp from '../../pages/public/SignUp'
+import UnAuth from '../../layouts/UnAuth'
+
+export { UnAuth }
 
 export default [
     {
