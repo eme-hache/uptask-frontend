@@ -7,7 +7,6 @@ import axiosClient from '../config/axios.client'
 const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
-    // TODO vefiy connections when server is offline
     const navigate = useNavigate()
 
     const [isValidToken, setIsValidToken] = useState(false)

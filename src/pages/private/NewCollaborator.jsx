@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 
@@ -32,16 +32,6 @@ const NewCollaborator = () => {
             getProject(params.id)
         }
     }, [])
-
-    if (!project?._id) {
-        return (
-            <div className='flex justify-center'>
-                <div className='bg-white p-8 md:w-1/2 rounded shadow'>
-                    // TODO pending
-                </div>
-            </div>
-        )
-    }
 
     return (
         <>

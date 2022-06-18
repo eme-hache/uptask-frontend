@@ -2,14 +2,7 @@ import useProjects from '../../hooks/useProjects'
 import useAuth from '../../hooks/useAuth'
 
 const Header = () => {
-    const { signOut: signOutProjects, toggleMenu } = useProjects()
-    const { signOut: signOutAuth } = useAuth()
-
-    const handleSignOut = () => {
-        localStorage.removeItem('token')
-        signOutProjects()
-        signOutAuth()
-    }
+    const { handleSignOut, toggleMenu } = useProjects()
 
     return (
         <header className='p-5 bg-white border-b'>

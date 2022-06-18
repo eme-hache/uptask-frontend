@@ -7,7 +7,7 @@ const Preview = ({ project }) => {
     const { auth } = useAuth()
 
     return (
-        <div className='border-b p-5 flex flex-col md:flex-row justify-between gap-4 items-end'>
+        <div className='mb-5 bg-white rounded shadow p-5 flex flex-col md:flex-row justify-between gap-4 items-end'>
             <div className='flex items-center gap-2 w-full md:w-fit'>
                 <p className='flex-1'>
                     {name}
@@ -17,7 +17,17 @@ const Preview = ({ project }) => {
                     </span>
                 </p>
 
-                {auth._id !== author && <p className='p-1 text-xs rounded text-white bg-green-500 font-bold uppercase h-fit'>Colaborador</p>}
+                {auth._id !== author
+                    ? (
+                        <p className='p-1 text-xs rounded text-white bg-blue-500 font-bold uppercase h-fit'>
+                            Colaborador
+                        </p>
+                    )
+                    : (
+                        <p className='p-1 text-xs rounded text-white bg-green-500 font-bold uppercase h-fit'>
+                            Propio
+                        </p>
+                    )}
             </div>
 
             <Link

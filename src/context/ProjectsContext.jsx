@@ -11,8 +11,8 @@ let socket
 const ProjectContext = createContext()
 
 export const ProjectProvider = ({ children }) => {
+    const { auth, signOut: signOutAuth} = useAuth()
     const navigate = useNavigate()
-    const { auth } = useAuth()
 
     const [isDeleteCollaborator, setIsDeleteCollaborator] = useState(false)
     const [isDeleteProject, setIsDeleteProject] = useState(false)
@@ -391,9 +391,13 @@ export const ProjectProvider = ({ children }) => {
         setIsSearcher(!isSearcher)
     }
 
-    const signOut = () => {
+    const handleSignOut = () => {
+        localStorage.removeItem('token')
+        setIsMenuOpen(false)
         setProjects([])
         setProject({})
+        
+        signOutAuth()
     }
     
     useEffect(() => {
@@ -436,7 +440,6 @@ export const ProjectProvider = ({ children }) => {
                 isDeleteTask,
                 isDeleteProject,
                 isDeleteCollaborator,
-                signOut,
                 addedTask,
                 toggleMenu,
                 getProject,
@@ -446,6 +449,7 @@ export const ProjectProvider = ({ children }) => {
                 deletedTask,
                 setProjects,
                 handleModal,
+                handleSignOut,
                 deleteProject,
                 submitProject,
                 handleSearcher,

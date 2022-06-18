@@ -30,6 +30,7 @@ const Project = () => {
     }, [params])
 
     useEffect(() => {
+        console.log("conectandose")
         socket = io(import.meta.env.VITE_BACKEND_URL)
 
         socket.emit('openProject', params.id)
@@ -87,6 +88,8 @@ const Project = () => {
                     </Link>
                 )}
             </div>
+
+            <p className='text-base text-gray-600 mt-5'>{project?.description}</p>
 
             {admin && (
                 <button

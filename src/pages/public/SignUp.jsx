@@ -26,7 +26,7 @@ const SignupUser = () => {
       return toast('La contraseña debe tener al menos 6 caracteres', { type: 'warning' })
     }
 
-    await signUp(account)
+    //await signUp(account)
   }
 
   return (
