@@ -42,10 +42,9 @@ export const AuthProvider = ({ children }) => {
             setIsValidToken(true)
         }
         catch (error) {
-            const { response: { data } } = error || {}
-            const msg = data?.msgToUser ?? 'Ocurrió un error al verificar el token'
+            const { response: { data: { msgToUser } } } = error ?? {}
 
-            toast(msg, { type: 'error' })
+            toast(msgToUser ?? 'Ocurrió un error al verificar el token', { type: 'error' })
 
             setIsValidToken(false)
 
@@ -61,10 +60,9 @@ export const AuthProvider = ({ children }) => {
             navigate('/')
         }
         catch (error) {
-            const { response: { data } } = error || {}
-            const msg = data?.msgToUser ?? 'Ocurrió un error al crear la cuenta'
+            const { response: { data: { msgToUser } } } = error ?? {}
 
-            toast(msg, { type: 'error' })
+            toast(msgToUser ?? 'Ocurrió un error al crear la cuenta', { type: 'error' })
         }
     }
 
@@ -80,10 +78,9 @@ export const AuthProvider = ({ children }) => {
             navigate('/projects')
         }
         catch (error) {
-            const { response: { data } } = error || {}
-            const msg = data?.msgToUser ?? 'Ocurrió un error al iniciar sesión'
+            const { response: { data: { msgToUser } } } = error ?? {}
 
-            toast(msg, { type: 'error' })
+            toast(msgToUser ?? 'Ocurrió un error al iniciar sesión', { type: 'error' })
         }
         finally {
             setLoading(false)
@@ -102,10 +99,9 @@ export const AuthProvider = ({ children }) => {
             navigate('/')
         }
         catch (error) {
-            const { response: { data } } = error || {}
-            const msg = data?.msgToUser ?? 'Ocurrió un error al restablecer la contraseña'
+            const { response: { data: { msgToUser } } } = error ?? {}
 
-            toast(msg, { type: 'error' })
+            toast(msgToUser ?? 'Ocurrió un error al restablecer la contraseña', { type: 'error' })
         }
     }
 
@@ -118,10 +114,9 @@ export const AuthProvider = ({ children }) => {
             toast(data.msgToUser, { type: data.error ? 'error' : 'success' })
         }
         catch (error) {
-            const { response: { data } } = error || {}
-            const msg = data?.msgToUser ?? 'Ocurrió un error al confirmar la cuenta la cuenta'
+            const { response: { data: { msgToUser } } } = error ?? {}
 
-            toast(msg, { type: 'error' })
+            toast(msgToUser ?? 'Ocurrió un error al confirmar la cuenta', { type: 'error' })
         }
         finally {
             setLoading(false)
@@ -137,10 +132,9 @@ export const AuthProvider = ({ children }) => {
             navigate('/')
         }
         catch (error) {
-            const { response: { data } } = error || {}
-            const msg = data?.msgToUser ?? 'Ocurrió un error al enviar el correo'
+            const { response: { data: { msgToUser } } } = error ?? {}
 
-            toast(msg, { type: 'error' })
+            toast(msgToUser ?? 'Ocurrió un error al enviar el correo', { type: 'error' })
         }
     }
 
