@@ -30,7 +30,7 @@ const Project = () => {
     }, [params])
 
     useEffect(() => {
-        socket = io(import.meta.env.VITE_BACKEND_URL)
+        socket = io(import.meta.env.VITE_BACKEND_URL, { transports: ['websocket'] })
 
         socket.emit('openProject', params.id)
     }, [params])
