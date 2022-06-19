@@ -1,5 +1,5 @@
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useState, useEffect, createContext } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import axiosClient from '../config/axios.client'
@@ -7,6 +7,7 @@ import axiosClient from '../config/axios.client'
 const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
+    const location = useLocation()
     const navigate = useNavigate()
 
     const [isValidToken, setIsValidToken] = useState(false)
@@ -15,6 +16,7 @@ export const AuthProvider = ({ children }) => {
 
     const authenticateUser = async token => {
         try {
+            const logged = localStorage.getItem('logged')
             const config = {
                 headers: {
                     'Content-Type': 'application/json',
@@ -24,7 +26,12 @@ export const AuthProvider = ({ children }) => {
 
             const { data } = await axiosClient.get('/user/profile', config)
 
+            
             setAuth(data)
+            
+            if (!logged || location.pathname === '/') navigate('/projects')
+
+            localStorage.setItem('logged', true)
         }
         catch {
             setAuth({})
@@ -145,6 +152,7 @@ export const AuthProvider = ({ children }) => {
             authenticateUser(token)
         }
         else {
+            localStorage.removeItem('logged')
             setLoading(false)
         }
     }, [])

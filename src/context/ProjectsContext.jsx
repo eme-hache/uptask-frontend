@@ -392,6 +392,7 @@ export const ProjectProvider = ({ children }) => {
     }
 
     const handleSignOut = () => {
+        localStorage.removeItem('logged')
         localStorage.removeItem('token')
         setIsMenuOpen(false)
         setProjects([])
@@ -401,7 +402,9 @@ export const ProjectProvider = ({ children }) => {
     }
     
     useEffect(() => {
+        console.log("jijij")
         if (auth && Object.keys(auth).length > 0) {
+            console.log("entro")
             getAllProjects()
         }
     }, [auth])
