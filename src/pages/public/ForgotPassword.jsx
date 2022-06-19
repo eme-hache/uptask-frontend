@@ -27,6 +27,7 @@ const ForgotPassword = () => {
 
       <form onSubmit={handleSubmit} className='my-10 bg-white shadow rounded px-10 py-5'>
         <Input
+          autoComplete='username'
           label='Email'
           type='email'
           placeholder='Ingresa tu email'

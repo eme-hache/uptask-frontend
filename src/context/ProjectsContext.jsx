@@ -402,9 +402,7 @@ export const ProjectProvider = ({ children }) => {
     }
     
     useEffect(() => {
-        console.log("jijij")
         if (auth && Object.keys(auth).length > 0) {
-            console.log("entro")
             getAllProjects()
         }
     }, [auth])

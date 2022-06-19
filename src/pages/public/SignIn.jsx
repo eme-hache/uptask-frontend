@@ -43,6 +43,7 @@ const SignIn = () => {
 
                     <form onSubmit={handleSubmit} className='mt-5 mb-10 bg-white shadow rounded px-10 py-5'>
                         <Input
+                            autoComplete='username'
                             label='Email'
                             type='email'
                             placeholder='Ingresa tu email'
@@ -52,6 +53,7 @@ const SignIn = () => {
                         />
 
                         <Input
+                            autoComplete='current-password'
                             label='Contraseña'
                             type='password'
                             placeholder='Ingresa tu contraseña'

@@ -1,4 +1,4 @@
-const Input = ({ label, type, id, placeholder, value, onChange, required }) => {
+const Input = ({ label, type, id, placeholder, value, onChange, required, autoComplete }) => {
     return (
         <div className='mb-5'>
             <label htmlFor={id} className='uppercase text-gray-600 block text-base font-bold'>
@@ -8,6 +8,7 @@ const Input = ({ label, type, id, placeholder, value, onChange, required }) => {
             {type === 'textarea'
                 ? (
                     <textarea
+                        autoComplete={autoComplete}
                         required={required}
                         id={id}
                         placeholder={placeholder}
@@ -18,6 +19,7 @@ const Input = ({ label, type, id, placeholder, value, onChange, required }) => {
                 )
                 : (
                     <input
+                        autoComplete={autoComplete}
                         required={required}
                         type={type}
                         id={id}

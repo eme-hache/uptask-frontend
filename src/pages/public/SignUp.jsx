@@ -55,6 +55,7 @@ const SignupUser = () => {
         />
 
         <Input
+          autoComplete='off'
           label='Contraseña'
           type='password'
           placeholder='Ingresa tu contraseña'
@@ -64,6 +65,7 @@ const SignupUser = () => {
         />
 
         <Input
+          autoComplete='off'
           label='Repite tu Contraseña'
           type='password'
           placeholder='Repite tu contraseña'
