@@ -39,7 +39,7 @@ const Task = ({ task }) => {
                     type='button'
                     onClick={() => changeTaskState(task._id)}
                 >
-                    {completed ? 'Completa' : 'Incompleta'}
+                    {completed ? 'Incompletar' : 'Completar'}
                 </button>
 
                 {admin && (

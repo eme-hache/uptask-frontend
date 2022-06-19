@@ -30,7 +30,6 @@ const Project = () => {
     }, [params])
 
     useEffect(() => {
-        console.log("conectandose")
         socket = io(import.meta.env.VITE_BACKEND_URL)
 
         socket.emit('openProject', params.id)

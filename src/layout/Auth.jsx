@@ -24,7 +24,7 @@ const Auth = () => {
             <div className='md:flex flex-1 h-[80%]'>
                 <Sidebar />
 
-                <main className='flex-1 p-10 h-full overflow-scroll'>
+                <main className='flex-1 p-5 md:p-10 h-full overflow-scroll'>
                     <Outlet />
                 </main>
             </div>
