@@ -407,7 +407,7 @@ export const ProjectProvider = ({ children }) => {
         }
     }, [auth])
 
-    useEffect(() => { socket = io(import.meta.env.VITE_BACKEND_URL) }, [])
+    useEffect(() => { socket = io(import.meta.env.VITE_BACKEND_URL, { transports: ['websocket'] }) }, [])
 
     // Socket functions
 
