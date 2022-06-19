@@ -24,7 +24,7 @@ const Task = ({ task }) => {
             </div>
 
             <div className='flex flex-col lg:flex-row gap-2'>
-                {admin && (
+                {admin || !admin && (
                     <button
                         className='bg-indigo-600 px-4 py-3 text-white font-bold text-sm rounded'
                         type='button'
@@ -42,7 +42,7 @@ const Task = ({ task }) => {
                     {completed ? 'Incompletar' : 'Completar'}
                 </button>
 
-                {admin && (
+                {admin || !admin && (
                     <button
                         className='bg-red-600 px-4 py-3 text-white font-bold text-sm rounded'
                         type='button'

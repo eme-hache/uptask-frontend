@@ -72,7 +72,7 @@ const Project = () => {
             <div className='flex justify-between gap-4'>
                 <h1 className='font-black text-4xl'>{project?.name}</h1>
 
-                {admin && (
+                {admin || !admin && (
                     <Link
                         to={`/projects/edit/${params.id}`}
                         className='flex items-center gap-2 text-gray-500 hover:text-black'
@@ -90,7 +90,7 @@ const Project = () => {
 
             <p className='text-base text-gray-600 mt-5'>{project?.description}</p>
 
-            {admin && (
+            {admin || !admin && (
                 <button
                     onClick={() => handleModal()}
                     type='button'
@@ -109,7 +109,7 @@ const Project = () => {
                 <TasksList tasks={project.tasks} />
             </div>
 
-            {admin && (
+            {admin || !admin && (
                 <>
                     <div className='flex justify-between mt-10'>
                         <p className='font-bold text-xl'>Colaboradores</p>
