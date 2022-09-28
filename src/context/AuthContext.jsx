@@ -84,7 +84,6 @@ export const AuthProvider = ({ children }) => {
             navigate('/projects')
         }
         catch (error) {
-            console.log(error)
             const { response: { data } } = error || {}
 
             toast(data?.msgToUser ?? 'Ocurrió un error al iniciar sesión', { type: 'error' })

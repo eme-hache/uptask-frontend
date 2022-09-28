@@ -3,7 +3,8 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "dev": "VITE_BACKEND_URL=http://$(ifconfig | grep 'inet ' | grep -Fv 127.0.0.1 | awk '{print $2}'):4000 vite --host",
+    "win": "vite --host",
+    "dev": "VITE_BACKEND_URL=http://localhost:4000 vite --host",
     "build": "vite build",
     "preview": "vite preview"
   },
