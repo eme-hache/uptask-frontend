@@ -4,6 +4,8 @@ This project is made with Vite, Tailwind CSS and Socket.io
 
 ## Demo
 
+You can log in with `guest@mail.com` and `abc123`
+
 [https://uptask-frontend-eme-hache.vercel.app/](https://uptask-frontend-eme-hache.vercel.app/)
 
 ## Environment Variables
